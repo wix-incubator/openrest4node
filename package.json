@@ -1,0 +1,28 @@
+{
+  "name": "openrest",
+  "version": "1.1.1",
+  "description": "OpenRest Node.js Module (https://www.openrest.com)",
+  "main": "index.js",
+  "scripts": {
+    "test": "node tests/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/openrest/openrest4node.git"
+  },
+  "keywords": [
+    "openrest",
+    "restaurant",
+    "online",
+    "ordering"
+  ],
+  "author": "OpenRest",
+  "license": "Apache",
+  "bugs": {
+    "url": "https://github.com/openrest/openrest4node/issues"
+  },
+  "homepage": "https://github.com/openrest/openrest4node",
+  "dependencies": {
+    "xmlhttprequest": "~1.6.0"
+  }
+}
