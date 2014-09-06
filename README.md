@@ -34,6 +34,7 @@ The source is available for download from [GitHub](https://github.com/openrest/o
 Send a request to the server.
 
 __Arguments__
+
 `params` - Object with two members: 
 
  - `request` - The request to send. For a list of possible requests, see [here](https://github.com/openrest/openrest4j/tree/master/openrest4j-api/src/com/openrest/v1_1).
