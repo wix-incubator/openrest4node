@@ -1,6 +1,6 @@
 {
   "name": "openrest",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "description": "OpenRest Node.js Module (https://www.openrest.com)",
   "main": "index.js",
   "scripts": {
