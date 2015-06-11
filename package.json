@@ -4,7 +4,7 @@
   "description": "OpenRest Node.js Module (https://www.openrest.com)",
   "main": "index.js",
   "scripts": {
-    "test": "node tests/test.js"
+    "test": "make test"
   },
   "repository": {
     "type": "git",
@@ -23,6 +23,12 @@
   },
   "homepage": "https://github.com/openrest/openrest4node",
   "dependencies": {
+    "q": "^1.4.1",
     "xmlhttprequest": "~1.6.0"
+  },
+  "devDependencies": {
+    "chai": "^3.0.0",
+    "chai-as-promised": "^5.1.0",
+    "mocha": "^2.2.5"
   }
 }

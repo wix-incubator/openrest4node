@@ -1,15 +1,30 @@
-// openrest4js-client-1.1.1.js
-var openrest = {}; openrest.Client=openrest.Client||function(g){return function(d){var d=d||{},e=d.apiUrl||"https://api.openrest.com/v1.1",f=d.accessToken||null,d={},a=new openrest.Protocol;d.getAccessToken=function(){return f};d.setAccessToken=function(a){f=a};d.getMyRoles=function(b){var c=new openrest.QueryStringBuilder(b.params);c.append("access_token",f);a.get({url:e+"/me/roles/"+c.toString(),callback:b.callback})};d.getMeInfo=function(b){var c=new openrest.QueryStringBuilder(b.params);c.append("access_token", f);a.get({url:e+"/me/info"+c.toString(),callback:b.callback})};d.setMeInfo=function(b){var c=new openrest.QueryStringBuilder(b.params);c.append("access_token",f);a.set({url:e+"/me/info"+c.toString(),obj:b.obj,callback:b.callback})};d.getMePayments=function(b){var c=new openrest.QueryStringBuilder(b.params);c.append("access_token",f);a.get({url:e+"/me/payments/"+c.toString(),callback:b.callback})};d.deletePayment=function(b){var c=new openrest.QueryStringBuilder(b.params);c.append("access_token",f); a.remove({url:e+"/me/payments/"+b.id+c.toString(),callback:b.callback})};d.getOrders=function(b){var c=new openrest.QueryStringBuilder(b.params);c.append("access_token",f);a.get({url:e+"/orders/"+c.toString(),callback:b.callback})};d.getOrderHtmlUrl=function(a){var c=new openrest.QueryStringBuilder(a.params);c.append("access_token",f);return e+"/orders/"+a.id+c.toString()};d.getRestaurants=function(b){var c=new openrest.QueryStringBuilder(b.params);a.get({url:e+"/restaurants/"+c.toString(),callback:b.callback})}; d.search=function(b){var c=new openrest.QueryStringBuilder(b.params);a.get({url:e+"/search"+c.toString(),callback:b.callback})};d.getRestaurantsFull=function(b){var c=new openrest.QueryStringBuilder(b.params);a.get({url:e+"/restaurants.full/"+c.toString(),callback:b.callback})};d.request=function(b){b=b||{};a.add({url:e,obj:b.request||{},callback:b.callback||function(){}})};return d}(g)};openrest=openrest||{}; openrest.Protocol=openrest.Protocol||function(g){return function(d){var d=d||{},e=d.timeout||6E4,f=d.userAgent||"openrest4js (gzip)";return{get:function(a){var a=a||{},b=a.url,c=a.callback||function(){},a=http.create({onload:function(){c(JSON.parse(this.responseText))},onerror:function(){c({error:"protocol",errorMessage:"protocol error"})},timeout:e});a.open("GET",b);a.setUserAgent(f);a.setRequestHeader("Accept","application/json");a.send()},set:function(a){var a=a||{},b=a.url,c=a.obj,d=a.callback|| function(){},a=http.create({onload:function(){d(JSON.parse(this.responseText))},onerror:function(){d({error:"protocol",errorMessage:"protocol error"})},timeout:e});a.open("PUT",b);a.setUserAgent(f);a.setRequestHeader("Accept","application/json");a.setRequestHeader("Content-Type","application/json");a.send(JSON.stringify(c))},add:function(a){var a=a||{},b=a.url,c=a.obj,d=a.callback||function(){},a=http.create({onload:function(){d(JSON.parse(this.responseText))},onerror:function(){d({error:"protocol", errorMessage:"protocol error"})},timeout:e});a.open("POST",b);a.setUserAgent(f);a.setRequestHeader("Accept","application/json");a.setRequestHeader("Content-Type","application/json");a.send(JSON.stringify(c))},remove:function(a){var a=a||{},b=a.url,c=a.callback||function(){},a=http.create({onload:function(){c(JSON.parse(this.responseText))},onerror:function(){c({error:"protocol",errorMessage:"protocol error"})},timeout:e});a.open("DELETE",b);a.setUserAgent(f);a.setRequestHeader("Accept","application/json"); a.send()}}}(g)};openrest=openrest||{};openrest.QueryStringBuilder=openrest.QueryStringBuilder||function(g){return function(d){var e={},f="";e.append=function(a,c){"undefined"===typeof a||("undefined"===typeof c||null===c)||(f+=(0===f.length?"?":"&")+encodeURIComponent(a)+"="+encodeURIComponent(c))};if(d)for(var a in d)e.append(a,d[a]);e.toString=function(){return f};return e}(g)}; 
-// openrest4js-client-1.1.1.js
+var Q = require("q");
 
-// http-1.0.1.js
-var http=http||{}; http.Factory=http.Factory||function(){return{create:function(b){var b=b||{},c=b.timeout||6E4,d=b.onload||function(){},e=b.onerror||function(){},f=b.onprogress||function(){},b=b.ontimeout||function(){};if("undefined"!==typeof XDomainRequest){var a=new XDomainRequest;a.timeout=c;a.onload=d;a.onerror=e;a.onprogress=f;a.ontimeout=b;a.setRequestHeader=function(){};a.setUserAgent=function(){};return a}if("undefined"!==typeof XMLHttpRequest)return a=new XMLHttpRequest,a.timeout=c,a.onload=d,a.onerror=e, a.onprogress=f,a.ontimeout=b,a.setUserAgent=function(){},a;if("undefined"!==typeof Ti){var g=Ti.Network.createHTTPClient({timeout:c,onload:d,onerror:e,onprogress:f,ontimeout:b});g.setUserAgent=function(a){g.setRequestHeader("User-Agent",a)};return g}throw Error("Could not find an HttpClient implementation.");}}}();http.create=http.create||http.Factory.create;
-// http-1.0.1.js
+var openrest = require("./lib/openrest4js-client-1.1.1.js");
 
-XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest; // npm install xmlhttprequest - Used with http-1.0.1.js
-
-var client = new openrest.Client({apiUrl:"https://spice-prod.appspot.com/v1.1"});
+var _client = new openrest.Client({apiUrl:"https://spice-prod.appspot.com/v1.1"});
 
 exports.request = function(params) {
-    client.request(params);
+    var request = params.request;
+    var callback = params.callback;
+    var client = params.client || _client;
+
+    var defer = Q.defer();
+
+    client.request({
+        request:request,
+        callback:function(e) {
+            if (e.error) {
+                defer.reject(e);
+            } else {
+                defer.resolve(e);
+            }
+
+            if (callback) {
+                callback(e);
+            }
+        }
+    });
+
+    return defer.promise;
 }
