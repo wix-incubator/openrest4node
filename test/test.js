@@ -56,5 +56,10 @@ describe("Openrest node component", function() {
             expect(e.error).to.equal("protocol");
         });
     });
+
+    it("should print out performance", function() {
+        var performance = openrest.getPerformance();
+        console.log(performance);
+    });
 });
 
