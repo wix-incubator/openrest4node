@@ -6,6 +6,7 @@ var apiUrl = null;
 
 var _requests = {};
 var _monitor = 0;
+var _batch = null;
 
 module.exports = {
     request:function(params) {
@@ -18,6 +19,11 @@ module.exports = {
         var defer = Q.defer();
         var startTime = (new Date()).getTime();
         _requests[request.type] = _requests[request.type] || [];
+
+        if (_batch) {
+            _batch.push({params:params, defer:defer});
+            return defer.promise;
+        }
 
         client.request({
             request:request,
@@ -45,5 +51,37 @@ module.exports = {
     },
     getPerformance:function() {
         return _requests;
+    },
+    setBatch() {
+        _batch = _batch || [];
+    },
+    releaseBatch() {
+        var batch = _batch;
+        _batch = null;
+
+        var requests = batch.map(function(b) {
+            return b.params.request;
+        });
+
+        this.request({request:{type:'batch', requests:requests}}).then(function(result) {
+            var responses = result.value.responses;
+            responses.forEach(function(response, index) {
+                if (response.error) {
+                    batch[index].defer.reject(response);
+                } else {
+                    batch[index].defer.resolve(response);
+                }
+                if (batch[index].params.callback) {
+                    batch[index].params.callback(response);
+                }
+            });
+        }).catch(function(error) {
+            batch.forEach(function(b) {
+                b.reject(error);
+                if (b.params.callback) {
+                    bparams.callback(error);
+                }
+            });
+        });
     }
 }
