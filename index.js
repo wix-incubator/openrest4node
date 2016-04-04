@@ -52,10 +52,10 @@ module.exports = {
     getPerformance:function() {
         return _requests;
     },
-    setBatch() {
+    setBatch:function() {
         _batch = _batch || [];
     },
-    releaseBatch() {
+    releaseBatch:function() {
         var batch = _batch;
         _batch = null;
 
