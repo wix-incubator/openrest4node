@@ -7,9 +7,7 @@ module.exports = {
         filename: 'index.js',
         libraryTarget: 'commonjs',
     },
-    externals: {
-        'lodash': 'lodash',
-    },
+    externals: ['lodash', 'xmlhttprequest'],
     module: {
         loaders: [
             {
