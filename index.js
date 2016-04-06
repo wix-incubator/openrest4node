@@ -1,6 +1,6 @@
 var Q = require("q");
 
-var openrest = require("./lib/openrest4js-client-1.1.1.js");
+var OpenrestClient = require("openrest4js").OpenrestClient;
 
 var apiUrl = null;
 
@@ -10,7 +10,7 @@ var _batch = null;
 
 module.exports = {
     request:function(params) {
-        var _client = new openrest.Client({apiUrl:(apiUrl || "https://spice-prod.appspot.com/v1.1")});
+        var _client = new OpenrestClient({XMLHttpRequest : XMLHttpRequest, apiUrl:(apiUrl || "https://api.openrest.com/v1.1")});
 
         var request = params.request;
         var callback = params.callback;

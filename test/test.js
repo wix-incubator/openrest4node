@@ -1,12 +1,13 @@
 var chai = require("chai");
-var openrest = require('../index.js');  
-var openrestClient = require("../lib/openrest4js-client-1.1.1.js");
+var openrest = require('../index.js');
+var OpenrestClient = require("openrest4js").OpenrestClient;
+var xhr2 = require('xhr2');
+global.XMLHttpRequest = xhr2.XMLHttpRequest;
 
 var chaiAsPromised = require("chai-as-promised");
 chai.use(chaiAsPromised);
 
 var expect = chai.expect;
-var should = chai.should;
 
 describe("Openrest node component", function() {
     it("should return results from the server", function(done) {
@@ -49,7 +50,7 @@ describe("Openrest node component", function() {
 
     it("should fail gracefully when getting an catastrophic error from the server", function() {
 
-        var client = new openrestClient.Client({apiUrl:"http://www.google.com"});
+        var client = new OpenrestClient({XMLHttpRequest : XMLHttpRequest, apiUrl:"http://www.google.com"});
         return openrest.request({client:client, request:{"type":"get_organization", "organizationId":"us.openrest.com"}}).then(function() {
             return Q.reject("Should fail");
         }).catch(function(e) {

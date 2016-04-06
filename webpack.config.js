@@ -7,7 +7,7 @@ module.exports = {
         filename: 'index.js',
         libraryTarget: 'commonjs',
     },
-    externals: ['lodash', 'xmlhttprequest'],
+    externals: ['q', 'openrest4js'],
     module: {
         loaders: [
             {
