@@ -25,6 +25,20 @@ describe("Openrest node component", function() {
         });
     });
 
+    it("should be timed out", function(done) {
+        openrest.request({
+            request:{
+                "type":"get_organization",
+                "organizationId":"us.openrest.com"
+            },
+            timeout: 1,
+            callback:function(e) {
+                expect(e.error).to.equal('timeout');
+                done();
+            }
+        });
+    });
+
     it("should return results from server as a promise", function() {
         return openrest.request({request:{"type":"get_organization", "organizationId":"us.openrest.com"}}).then(function(e) {
             expect(e.value.id).to.equal("us.openrest.com");
