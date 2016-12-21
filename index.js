@@ -10,7 +10,7 @@ var _batch = null;
 
 module.exports = {
     request:function(params) {
-        var _client = new OpenrestClient({XMLHttpRequest : XMLHttpRequest, apiUrl:(apiUrl || "https://api.openrest.com/v1.1"), timeout:params.timeout});
+        var _client = new OpenrestClient({XMLHttpRequest : XMLHttpRequest, apiUrl:(apiUrl || "https://api.wixrestaurants.com/v1.1"), timeout:params.timeout});
 
         var request = params.request;
         var callback = params.callback;
