@@ -10,6 +10,8 @@ chai.use(chaiAsPromised);
 var expect = chai.expect;
 
 describe("Openrest node component", function() {
+    // Commented out tests that communicated with production service
+    /*
     it("should return results from the server", function(done) {
         openrest.request({
             request:{
@@ -71,6 +73,7 @@ describe("Openrest node component", function() {
             expect(e.error).to.equal("protocol");
         });
     });
+    */
 
     it("should print out performance", function() {
         var performance = openrest.getPerformance();
