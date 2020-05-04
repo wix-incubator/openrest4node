@@ -5,9 +5,10 @@
   "main": "dist/index.js",
   "scripts": {
     "test": "mocha --compilers js:babel-register",
-    "prepublish": "npm test && webpack",
+    "prepublish": "npm run snyk-protect && npm test && webpack",
     "build": ":",
-    "release": "npm install wnpm-ci --no-save && wnpm-release -- --no-shrinkwrap"
+    "release": "npm install wnpm-ci --no-save && wnpm-release -- --no-shrinkwrap",
+    "snyk-protect": "snyk protect"
   },
   "repository": {
     "type": "git",
@@ -27,7 +28,8 @@
   "homepage": "https://github.com/openrest/openrest4node",
   "dependencies": {
     "openrest4js": "^1.0.3",
-    "q": "^1.4.1"
+    "q": "^1.4.1",
+    "snyk": "^1.317.0"
   },
   "devDependencies": {
     "babel": "^6.5.2",
@@ -47,5 +49,6 @@
   },
   "directories": {
     "test": "test"
-  }
+  },
+  "snyk": true
 }
